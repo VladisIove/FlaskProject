@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% for user in users %}
+    {% if user.id == post.user_id %}
+    <div><p>{{post.timestamp}} - {{ user.username }} {{ post.title }} says: <b>{{ post.body }}</b></p>
+   	{% endif %}
+    {% endfor %}
+    <a href="{{ url_for('post.update', id=post['id']) }}">Edit</a>
+    <a href="{{ url_for('post.detail', id=post['id']) }}">Detail</a>
+  </div>
+{% endblock %}

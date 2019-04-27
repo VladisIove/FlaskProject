@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Detail Post</h1>
+    <h1>{{post.title}}</h1>
+    <p>{{ post.body }}</p>
+    <p> Tags: </p>
+    {% for tag in post.tags %}
+      <p><a href="{{ url_for('post.tag_with_psot', id=tag.id) }}">{{tag.body}}</a></p>
+    {% endfor %}
+  <form action="{{ url_for('post.like', id = post.id) }}" method='post'>
+    <input type="submit" class='danger' value='+'><p>{{ post.like }}</p>
+  </form>
+  <form action="{{ url_for('post.dislike', id = post.id) }}" method='post'>
+    <input type="submit" class='danger' value='-'><p>{{ post.dislike }}</p>
+  </form>
+  <h1>Create Post</h1>
+<form action="{{ url_for('post.add_comemnt', id=post.id)}}" method="post">
+    <label for="body">Отзыв</label>
+    <textarea name="body" id="body">{{ request.form['body'] }}</textarea>
+    <input type="submit" value="Save">
+</form>
+
+{% if comments %}
+{% for com in comments %}
+  {% if com.post_id == post.id %}
+  <p>{{com.body}}</p>
+  {% endif %}
+{% endfor %}
+{% endif %}
+{% endblock %}
