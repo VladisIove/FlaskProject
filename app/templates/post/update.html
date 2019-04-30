@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Update Post</h1>
+{{super()}}
+<div class="container">
+        <h1>Update Post</h1>
     <form action="" method="post">
         {{ form.hidden_tag() }}
         <p>
@@ -20,6 +22,8 @@
         </p>
         <p>{{ form.submit() }}</p>
     </form>
+</div>
+
       <form action="{{ url_for('post.delete', id=post.id) }}" method="post">
     <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
   </form>

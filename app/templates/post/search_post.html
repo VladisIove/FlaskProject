@@ -1,12 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {% for user in users %}
-    {% if user.id == post.user_id %}
-    <div><p>{{post.timestamp}} - {{ user.username }} {{ post.title }} says: <b>{{ post.body }}</b></p>
-   	{% endif %}
-    {% endfor %}
+    {% for post in posts %}
+    <div><p>{{post.timestamp}} - {{ post.username }} {{ post.title }} says: <b>{{ post.body }} {{post.image_path}}</b></p>
+        <img src="{{url_for('uploaded_file', filename=post['image_path'] ) }}" alt="">
     <a href="{{ url_for('post.update', id=post['id']) }}">Edit</a>
     <a href="{{ url_for('post.detail', id=post['id']) }}">Detail</a>
   </div>
+  {% endfor %}
 {% endblock %}

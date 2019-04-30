@@ -1,26 +1,15 @@
-<!DOCTYPE html>
-<html>
-    <head>
-      {% if title %}
-      <title>{{ title }} - Microblog</title>
-      {% else %}
-      <title>Welcome to Microblog</title>
-      {% endif %}
-    </head>
-    <body>
-      <div>
-        Microblog:
-        <a href="{{ url_for('post.index') }}">Home</a>
+{% extends 'bootstrap/base.html' %}
 
-        {% if current_user.is_anonymous %}
-        <a href="{{ url_for('auth.login') }}">Login</a>
-        {% else %}
-        <a href="{{ url_for('auth.logout') }}">Logout</a>
-        <a href="{{ url_for('post.create') }}">Create Post</a>
-        {% endif %}
-      </div>
-        <hr>
-        {% with messages = get_flashed_messages() %}
+{% block title %}
+    {% if title %}{{ title }} - Microblog{% else %}Welcome to Microblog{% endif %}
+{% endblock %}
+
+{% block navbar %}
+  {% include 'post/navbar.html' %}
+{% endblock %}
+
+{% block content %}
+          {% with messages = get_flashed_messages() %}
         {% if messages %}
         <ul>
             {% for message in messages %}
@@ -29,6 +18,5 @@
         </ul>
         {% endif %}
         {% endwith %}
-        {% block content %}{% endblock %}
-    </body>
-</html>
+
+{% endblock %}

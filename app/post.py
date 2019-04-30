@@ -4,9 +4,11 @@ from flask_login import login_required, current_user
 from flask import render_template
 from werkzeug.utils import secure_filename
 from app import app, db
-from app.forms import CreatePost ,CommentForm, SearchPost
+from app.forms import CreatePost ,CommentForm
 from app.models import Post , Comment, User, Tag
 bp = Blueprint('post', __name__, url_prefix='/post')
+
+
 
 from flask import send_from_directory
 
@@ -29,6 +31,29 @@ def index():
 		prev_url = None
 	return render_template('post/index.html', title='Home', posts=posts.items, next_url=next_url, prev_url=prev_url)
 
+@bp.route('/tags')
+def tags_index():
+
+	tags = Tag.query.all()
+	return render_template('post/tags_index.html', title='Home', tags=tags)
+
+@bp.route('/search_post', methods=['GET', 'POST'])
+def search_post():
+	if request.method=='POST':
+		results = []
+		search_results = request.form['body']
+
+		if search_results == '':
+			results = Post.query.all()
+		if len(search_results) > 0:
+			results = Post.query.filter(Post.title == search_results)
+
+		if not results:
+			flash('No results found!')
+			return redirect('/')
+		else:
+			return render_template('post/search_post.html', title='Search Post', posts = results)
+
 @bp.route('/detail/<int:id>')
 def detail(id):
 	post = Post.query.get(id)
@@ -44,13 +69,6 @@ def tag_with_psot(id):
 	tag = Tag.query.filter(Tag.id == id).first()
 	posts = tag.posts
 	return render_template('post/index.html', posts=posts)
-
-@bp.route('/search/<name>', methods=['GET','POST'])
-def search_post(name):
-	form = SearchPost
-	if form.validate_on_submit():
-		post = Post.query.get_or_404(title = name)
-		return render_template('post/search_post.html', post=post)
 
 
 @login_required

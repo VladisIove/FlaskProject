@@ -16,10 +16,6 @@ class CreatePost(FlaskForm):
   submit = SubmitField('Save!')
 
 
-class SearchPost(FlaskForm):
-  title = StringField('Title: ', validators=[DataRequired()])
-  submit = SubmitField('Search!')
-
 
 class RegistrationForm(FlaskForm):
   username = StringField('Username', validators=[DataRequired()])
@@ -42,3 +38,6 @@ class RegistrationForm(FlaskForm):
 class CommentForm(FlaskForm):
   body = StringField('Comment', validators=[DataRequired()])
   submit = SubmitField('Comment!')
+
+class SearchForm(FlaskForm):
+  body = StringField('Search', validators=[DataRequired()])
