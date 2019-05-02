@@ -3,6 +3,11 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField,FileFi
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, regexp
 from app.models import User 
 
+class ResetPasswordForm(FlaskForm):
+  password = PasswordField('Password', validators=[DataRequired()])
+  password2 = PasswordField('Repeat Password', validators=[DataRequired(), EqualTo('password')])
+  submit = SubmitField('Request Password Reset')
+
 class LoginForm(FlaskForm):
 	username = StringField('Username', validators=[DataRequired()])
 	password = PasswordField('Password', validators=[DataRequired()])
@@ -15,7 +20,9 @@ class CreatePost(FlaskForm):
   tags = StringField('Tags:')
   submit = SubmitField('Save!')
 
-
+class ResetPasswordRequestForm( FlaskForm ):
+  email = StringField('Email', validators=[DataRequired(), Email()])
+  submit = SubmitField('Request Password Reset')
 
 class RegistrationForm(FlaskForm):
   username = StringField('Username', validators=[DataRequired()])

@@ -7,3 +7,4 @@ class Config:
 	SQLALCHEMY_TRACK_MODIFICATIONS = True 
 	POSTS_PER_PAGE=6
 	UPLOAD_FOLDER = os.path.join(basedir, 'app/uploads')
+	ADMINS = ['vlad.shelemakha0302@example.com']
