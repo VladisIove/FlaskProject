@@ -1,31 +1,56 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Create Post</h1>
-    <form action="" method="post" enctype=multipart/form-data>
+
+
+{{super()}}
+<div class="container">
+    <h1 class="h1 text-center">Create Post</h1>
+    <form  action="" method="post" enctype='multipart/form-data'>
         {{ form.hidden_tag() }}
-        <input type=file name=file>
-        <p>
-            {{ form.title.label }}<br>
-            {{ form.title(size=32) }}<br>
-            {% for error in form.title.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.body.label }}<br>
-            {{ form.body(size=64) }}<br>
-            {% for error in form.body.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.tags.label }}<br>
-            {{ form.tags(size=32) }}<br>
+
+        <div class="row">
+
+
+            <div class="form-group col-6">
+                <label for="formGroupExampleInput">{{ form.title.label }}</label>
+                <input type="text" class="form-control" id="formGroupExampleInput" name="title" id="title">
+                {% for error in form.title.errors %}
+                <div class="alert alert-danger" role="alert">
+                    <span style="color: red;">[{{ error }}]</span>
+                </div>  
+                {% endfor %}
+            </div> 
+            <div class="form-group col-6">
+                <label for="formGroupExampleInput">{{ form.body.label }}</label>
+                <input type="text" class="form-control" id="formGroupExampleInput" name="body" id="body">
+                {% for error in form.body.errors %}
+                <div class="alert alert-danger" role="alert">
+                    <span style="color: red;">[{{ error }}]</span>
+                </div>  
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row">
+
+
+          <div class="form-group col-6">
+            <label for="formGroupExampleInput2">{{ form.tags.label }}</label>
+            <input type="text" class="form-control" id="formGroupExampleInput2" name="tags" id="tags">
             {% for error in form.tags.errors %}
-            <span style="color: red;">[{{ error }}]</span>
+            <div class="alert alert-danger" role="alert">
+                <span style="color: red;">[{{ error }}]</span>
+            </div>    
             {% endfor %}
-        </p>
-        <p>{{ form.submit() }}</p>
-    </form>
+        </div >
+        <div class="form-group col-4 ">
+            <label for="exampleFormControlFile1">Выберите фото</label>
+            <input type="file" name="file" class="form-control-file mt-2" id="exampleFormControlFile1">
+        </div>
+        <div class=" col-1 ">
+            <p class="mt-4">  {{ form.submit(class="btn btn-primary btn-lg") }}</p>
+        </div>
+    </div>
+    
+</form>
 {% endblock %}

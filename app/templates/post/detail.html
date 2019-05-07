@@ -1,31 +1,95 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Detail Post</h1>
-    <h1>{{post.title}}</h1>
-    <p>{{ post.body }}</p>
-    <p> Tags: </p>
-    {% for tag in post.tags %}
-      <p><a href="{{ url_for('post.tag_with_psot', id=tag.id) }}">{{tag.body}}</a></p>
-    {% endfor %}
-  <form action="{{ url_for('post.like', id = post.id) }}" method='post'>
-    <input type="submit" class='danger' value='+'><p>{{ post.like }}</p>
-  </form>
-  <form action="{{ url_for('post.dislike', id = post.id) }}" method='post'>
-    <input type="submit" class='danger' value='-'><p>{{ post.dislike }}</p>
-  </form>
-  <h1>Create Post</h1>
-<form action="{{ url_for('post.add_comemnt', id=post.id)}}" method="post">
-    <label for="body">Отзыв</label>
-    <textarea name="body" id="body">{{ request.form['body'] }}</textarea>
-    <input type="submit" value="Save">
-</form>
+<div class="container">
+  <div class="row">
+    <div class="col-12 justify-content-center">
+      <h1 class="h1 text-center">Detail Post</h1>
+    </div>
+    <div class="col-5">
+     <img src="{{url_for('uploaded_file', filename=post['image_path'] ) }}" class="card-img-top" alt="...">
+   </div>
+   <div class="col-5 offset-2">
 
-{% if comments %}
-{% for com in comments %}
-  {% if com.post_id == post.id %}
-  <p>{{com.body}}</p>
+    <h1 class="h2">{{post.title}}</h1>
+    <p class="p">{{ post.body }}</p>
+    <div class="row">
+      <div class="col-6">
+        <div class="row">
+          <div class="col-5">
+            <form action="{{ url_for('post.like', id = post.id) }}" method='post'>
+              <input type="submit" class='btn btn-primary' value='LIKE'> 
+            </form>
+          </div>
+          <div class="col-3">
+            <p class="text-center h4">{{ post.like }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="row">
+          <div class="col-6">
+            <form action="{{ url_for('post.dislike', id = post.id) }}" method='post'>
+              <input type="submit" class='btn btn-danger' value='DISLIKE'>
+            </form>
+          </div>
+          <div class="col-6">
+            <p class="text-center h4">{{ post.dislike }}</p>
+          </div>
+          
+        </div>
+
+      </div>
+    </div>
+    <p class="h4"> Tags: </p>
+    {% for tag in post.tags %}
+    <p><a href="{{ url_for('post.tag_with_psot', id=tag.id) }}" class="btn {% if tag.id%2 %} btn-outline-primary
+      {% elif tag.id%3 %} btn-outline-warning  {% elif tag.id%4 %} btn-outline-danger {% else %} btn-outline-success {% endif %}">{{tag.body}}</a></p>
+    </div>
+
+    {% endfor %}
+  </div>
+</div>
+</div>
+
+<div class="container ">
+  <h1 class="h4 text-center mt-4">Create Comment</h1>
+        {% if current_user.is_anonymous %}
+  <div class="h1 text-center mt-4">Please <a href="{{ url_for('auth.register') }}">registration</a> or <a href="{{ url_for('auth.login') }}">login</a> on microblog </a></div>
+      {% else %}
+  <form action="{{ url_for('post.add_comemnt', id=post.id)}}" method="post">
+    <div class="input-group input-group-lg">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-lg">Comment</span>
+      </div>
+
+      <input name="body" id="body" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" placeholder="{{ request.form['body'] }}">
+      <input type="submit" value="Save">
+    </div>
+  </form>
   {% endif %}
-{% endfor %}
-{% endif %}
+  {% if comments %}
+  {% for com in comments %}
+  {% if com.post_id == post.id %}
+  <div class="alert alert-light" role="alert">
+    <div class="row">
+      <div class="col-2">
+        {% for user in users %}
+        {% if user.id == com.user_id %}
+        <p>{{user.username }}</p>
+        {% endif %}
+        {% endfor %}
+      </div>
+      <div class="col-2">
+        <p>{{com.body}}</p>
+      </div>
+    </div>
+  </div>
+
+  {% endif %}
+  {% endfor %}
+  {% endif %}
+</div>
+
+
 {% endblock %}

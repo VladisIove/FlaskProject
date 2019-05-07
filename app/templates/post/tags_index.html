@@ -1,7 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {% for tag in tags %}
-          <p><a href="{{ url_for('post.tag_with_psot', id=tag.id) }}">{{tag.body}}</a></p>
-  {% endfor %}
+<div class="container">
+	<div class="row">
+		{% for tag in tags %}
+		<div class="col-2">
+					<p><a href="{{ url_for('post.tag_with_psot', id=tag.id) }}" class="btn {% if tag.id%2 %} btn-outline-primary
+					{% elif tag.id%3 %} btn-outline-warning  {% elif tag.id%4 %} btn-outline-danger {% else %} btn-outline-success {% endif %}">{{tag.body}}</a></p>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+
 {% endblock %}
